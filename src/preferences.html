@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yahoo! Messenger Preferences</title>
+    <style>
+        :root {
+            --yahoo-purple: #8e2a6d;
+            /* Tím mận chủ đạo */
+            --yahoo-purple-dark: #5a1240;
+            --yahoo-purple-light: #a63d7a;
+            --mauve-bg: #BD7E9D;
+            --sidebar-bg: #FFFFFF;
+            --text-color: #FFFFFF;
+            --border-color: #ffffff40;
+            --title-bar-gradient: linear-gradient(to bottom, #bd7e9d, #a63d7a);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--yahoo-purple);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 4px;
+            overflow: hidden;
+            -webkit-app-region: drag;
+        }
+
+        .title-bar {
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px 10px;
+            cursor: pointer;
+            -webkit-app-region: no-drag;
+            color: #ffffff99;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            gap: 15px;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        /* Category Sidebar */
+        .category-sidebar {
+            width: 180px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+
+        .category-label {
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #ffccff;
+        }
+
+        .category-list {
+            background: white;
+            flex: 1;
+            border: 1px solid #000;
+            color: #333;
+            overflow-y: auto;
+        }
+
+        .category-item {
+            padding: 3px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .category-item.active {
+            background-color: var(--yahoo-purple);
+            color: white;
+        }
+
+        /* Settings Area */
+        .settings-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .settings-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 2px 10px;
+        }
+
+        .group-box {
+            border: 1px solid var(--border-color);
+            padding: 15px 10px 10px 10px;
+            margin-top: 15px;
+            position: relative;
+            border-radius: 3px;
+        }
+
+        .group-title {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--yahoo-purple);
+            padding: 0 5px;
+            font-size: 12px;
+            color: #ffccff;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .setting-row.indent {
+            margin-left: 25px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        /* Bottom Buttons */
+        .button-bar {
+            height: 50px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            padding: 0 10px;
+            -webkit-app-region: no-drag;
+        }
+
+        .btn {
+            background: linear-gradient(to bottom, #741d58, #4a0f38);
+            border: 1px solid #ffffff40;
+            color: white;
+            padding: 4px 25px;
+            font-size: 12px;
+            cursor: pointer;
+            min-width: 80px;
+            border-radius: 2px;
+        }
+
+        .btn:active {
+            filter: brightness(0.8);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ffffff40;
+            border: 3px solid transparent;
+            background-clip: content-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title-bar">
+        <span>Yahoo! Messenger Preferences</span>
+        <div class="close-btn" id="close-btn">✕</div>
+    </div>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="category-sidebar">
+            <div class="category-label">Category:</div>
+            <div class="category-list">
+                <div class="category-item">General</div>
+                <div class="category-item">Alerts & Sounds</div>
+                <div class="category-item">Appearance</div>
+                <div class="category-item">Chat</div>
+                <div class="category-item">Connected Networks</div>
+                <div class="category-item">Connection</div>
+                <div class="category-item">Conversation History</div>
+                <div class="category-item">Ignore List</div>
+                <div class="category-item">Language</div>
+                <div class="category-item active">Messages</div>
+                <div class="category-item">Mobile</div>
+                <div class="category-item">Privacy</div>
+                <div class="category-item">Video & Voice</div>
+                <div class="category-item">Webcam Broadcast</div>
+                <div class="category-item">Yahoo! Music</div>
+                <div class="category-item">Yahoo! Updates</div>
+            </div>
+        </div>
+
+        <!-- Settings Area -->
+        <div class="settings-area">
+            <div class="settings-title">Messages</div>
+
+            <div class="group-box">
+                <div class="group-title">When I receive a new message</div>
+                <div class="setting-row">
+                    <input type="radio" name="receive" id="show-win" checked>
+                    <label for="show-win">Show the message window.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="radio" name="receive" id="min-task">
+                    <label for="min-task">Minimize the message window to the taskbar.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="checkbox" id="show-bg" checked>
+                    <label for="show-bg">Show messages from background windows at bottom right of screen.</label>
+                </div>
+            </div>
+
+            <div class="group-box">
+                <div class="group-title">Pressing Enter in a message window</div>
+                <div class="setting-row">
+                    <input type="radio" name="enter" id="sends" checked>
+                    <label for="sends">Sends the message.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="radio" name="enter" id="newline">
+                    <label for="newline">Inserts a new line in the message.</label>
+                </div>
+            </div>
+
+            <div class="group-box">
+                <div class="group-title">When I receive messages from people not on my Messenger List</div>
+                <div class="setting-row">
+                    <input type="radio" name="nonlist" id="sep-win" checked>
+                    <label for="sep-win">Show the messages in separate windows.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="radio" name="nonlist" id="single-win">
+                    <label for="single-win">Show the messages in a single window.</label>
+                </div>
+            </div>
+
+            <div class="group-box">
+                <div class="group-title">Miscellaneous</div>
+                <div class="setting-row">
+                    <input type="checkbox" id="emoticons" checked>
+                    <label for="emoticons">Enable emoticons.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="checkbox" id="audibles" checked>
+                    <label for="audibles">Enable Audibles.</label>
+                </div>
+                <div class="setting-row indent">
+                    <input type="checkbox" id="play-audibles" checked>
+                    <label for="play-audibles">Always play audio when I send or receive Audibles.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="checkbox" id="tabbed" checked>
+                    <label for="tabbed">Open new message windows in a tab.</label>
+                </div>
+                <div class="setting-row">
+                    <input type="checkbox" id="close-tabs">
+                    <label for="close-tabs">Always close all tabs when I click the close box.</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-bar">
+        <button class="btn" id="ok-btn">OK</button>
+        <button class="btn" id="cancel-btn">Cancel</button>
+        <button class="btn" id="apply-btn" disabled>Apply</button>
+    </div>
+
+    <script>
+        document.getElementById('close-btn').onclick = () => window.close();
+        document.getElementById('cancel-btn').onclick = () => window.close();
+        document.getElementById('ok-btn').onclick = () => window.close();
+    </script>
+</body>
+
+</html>

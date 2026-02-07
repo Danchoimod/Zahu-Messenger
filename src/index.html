@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZAHU Messenger - Yahoo! Retro</title>
+  <!-- <link rel="stylesheet" href="styles/main_retro.css"> -->
+
+  <style>
+    :root {
+      --yahoo-purple: #82225e;
+      --yahoo-purple-dark: #5a1240;
+      --yahoo-purple-light: #77246F;
+      --yahoo-mauve: #bd7e9d;
+      --window-bg: #f5f5f5;
+      --title-bar-bg: linear-gradient(to bottom, #bd7e9d, #a63d7a);
+      --toolbar-bg: #5a1240;
+      --border-color: #000;
+      --text-dark: #333;
+    }
+
+    .lucide {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--yahoo-mauve);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .main-window {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: white;
+      border: 1px solid #333;
+    }
+
+    .retro-title-bar {
+      background: var(--title-bar-bg);
+      height: 35px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      justify-content: space-between;
+      color: white;
+      -webkit-app-region: drag;
+    }
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    .title-logo {
+      font-family: serif;
+      font-size: 18px;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 3px;
+      -webkit-app-region: no-drag;
+    }
+
+    .control-btn {
+      width: 26px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .control-btn.close:hover {
+      background: #e81123;
+    }
+
+    .menu-bar {
+      background: var(--yahoo-purple-light);
+      height: 25px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 15px;
+      color: white;
+      font-size: 12px;
+    }
+
+    .menu-item {
+      cursor: pointer;
+      position: relative;
+      padding: 2px 5px;
+    }
+
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Dropdown Styles */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #F0F0F0;
+      border: 1px solid #999;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      min-width: 220px;
+      padding: 2px;
+      color: #333;
+    }
+
+    .dropdown.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      padding: 4px 10px 4px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      cursor: default;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .dropdown-item:hover {
+      background: #BD7E9D;
+      color: white;
+    }
+
+    .dropdown-item.has-submenu::after {
+      content: '▶';
+      font-size: 8px;
+      margin-left: 10px;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: #CCC;
+      margin: 2px 5px;
+    }
+
+    .shortcut {
+      color: #777;
+      font-size: 11px;
+      margin-left: 20px;
+    }
+
+    .dropdown-item:hover .shortcut {
+      color: white;
+    }
+
+    .user-profile {
+      background: var(--yahoo-purple-light);
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: white;
+    }
+
+    .avatar-container {
+      width: 50px;
+      height: 50px;
+      border: 2px solid white;
+      background: #ccc;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .avatar-placeholder {
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .user-details {
+      flex: 1;
+    }
+
+    .username-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: bold;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background: #ffd700;
+      border-radius: 50%;
+      border: 1px solid #333;
+    }
+
+    .status-message-box {
+      margin-top: 5px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 3px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 11px;
+      color: #eee;
+      border-radius: 3px;
+      cursor: text;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+      font-size: 11px;
+    }
+
+    .tabs-section {
+      display: flex;
+      background: var(--yahoo-purple-dark);
+      padding: 2px;
+      border-bottom: 1px solid #000;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 6px 20px;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      color: #ccc;
+    }
+
+    .tab.active {
+      background: linear-gradient(to bottom, var(--yahoo-purple), var(--yahoo-purple-dark));
+      color: white;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .toolbar {
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--yahoo-purple-dark);
+      border-bottom: 1px solid #000;
+    }
+
+    .tool-btn {
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .tool-btn:hover {
+      color: var(--yahoo-mauve);
+    }
+
+    .search-container {
+      flex: 1;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 4px 10px 4px 25px;
+      border: 1px solid #000;
+      border-radius: 2px;
+      font-size: 12px;
+      outline: none;
+      background: white;
+      color: black;
+    }
+
+    .contact-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 10px;
+    }
+
+    .group-header {
+      padding: 5px 0;
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--yahoo-purple);
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .group-header::before {
+      content: '▼';
+      font-size: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 4px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.1s;
+    }
+
+    .contact-item:hover {
+      background: #f0f0f0;
+    }
+
+    .contact-icon {
+      width: 20px;
+      height: 20px;
+      background: #eee;
+      border-radius: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .contact-name {
+      font-size: 12px;
+      color: #555;
+    }
+
+    .bottom-panels {
+      background: var(--yahoo-purple-light);
+      color: white;
+      padding: 5px 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .bottom-panels:hover {
+      background: var(--yahoo-purple);
+    }
+
+    .footer-panel-divider {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-window">
+    <!-- Title Bar -->
+    <div class="retro-title-bar">
+      <div class="title-left">
+        <span class="title-logo">ZAHU!</span> MESSENGER
+      </div>
+      <div class="window-controls">
+        <div class="control-btn min-button">
+          <i data-lucide="minus"></i>
+        </div>
+        <div class="control-btn max-button">
+          <i data-lucide="square"></i>
+        </div>
+        <div class="control-btn close">
+          <i data-lucide="x"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Bar -->
+    <div class="menu-bar">
+      <div class="menu-item" id="messenger-menu">
+        Messenger
+        <div class="dropdown" id="messenger-dropdown">
+          <div class="dropdown-item has-submenu">My Availability</div>
+          <div class="dropdown-item">No Incoming Calls</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Yahoo! Insider</div>
+          <div class="dropdown-item">My Contact Details</div>
+          <div class="dropdown-item">My Account Info</div>
+          <div class="dropdown-item">My Display Image <span class="shortcut">Ctrl+Shift+F8</span></div>
+          <div class="dropdown-item">My Webcam</div>
+          <div class="dropdown-item">My Pingbox</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item has-submenu">Show/Hide</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item has-submenu">Yahoo! Chat</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="open-prefs-item">Preferences <span class="shortcut">Ctrl+Shift+P</span></div>
+          <div class="dropdown-item">Privacy Options</div>
+          <div class="dropdown-item">Manage Updates I Broadcast...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Sign In to Mobile Phone... <span class="shortcut">Ctrl+Shift+D</span></div>
+          <div class="dropdown-item">Sign Out <span class="shortcut">Ctrl+D</span></div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Close <span class="shortcut">Ctrl+Q</span></div>
+        </div>
+      </div>
+      <div class="menu-item">Contacts</div>
+      <div class="menu-item">Actions</div>
+      <div class="menu-item" id="help-menu">Help</div>
+    </div>
+
+    <!-- User Profile Section -->
+    <div class="user-profile">
+      <div class="avatar-container">
+        <div class="avatar-placeholder"><i data-lucide="user"></i></div>
+      </div>
+      <div class="user-details">
+        <div class="username-row">
+          <span class="status-dot"></span>
+          <span class="username">mihaihd98</span>
+          <span style="font-size: 10px; margin-left: auto;">Y! Insider</span>
+        </div>
+        <div class="status-message-box">
+          Have something to share?
+        </div>
+        <div class="profile-actions">
+          <span><i data-lucide="gamepad-2" style="width: 12px; height: 12px;"></i> Games</span>
+          <span><i data-lucide="mail" style="width: 12px; height: 12px;"></i></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-section">
+      <div class="tab active">Contacts</div>
+      <div class="tab">Y! Updates</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <span class="tool-btn" title="Add Contact"><i data-lucide="user-plus"></i></span>
+      <span class="tool-btn" title="View"><i data-lucide="layout-grid"></i></span>
+      <div class="search-container">
+        <span style="position: absolute; left: 8px; top: 6px; color: #999;">
+          <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+        </span>
+        <input type="text" class="search-input" placeholder="Type some contact information...">
+      </div>
+    </div>
+
+    <!-- Contact List -->
+    <div class="contact-list">
+      <div class="group-header">
+        Recent Contacts (0/0)
+      </div>
+      <div class="group-header" style="margin-top: 10px;">
+        Friends (4/46)
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: green;"></i></div>
+        <span class="contact-name">dangera.crazy</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: green;"></i></div>
+        <span class="contact-name">dany_zicu2007</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: green;"></i></div>
+        <span class="contact-name">user_33912</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: orange;"></i></div>
+        <span class="contact-name">friend_abc_xyz</span>
+      </div>
+    </div>
+
+    <!-- Footer Panels -->
+    <div class="bottom-panels">
+      <span><i data-lucide="chevron-up" style="width: 12px; height: 12px;"></i> Plug-ins</span>
+      <span>Add Plug-ins</span>
+    </div>
+    <div class="bottom-panels footer-panel-divider">
+      <span><i data-lucide="chevron-up" style="width: 12px; height: 12px;"></i> Favorites</span>
+      <span>Manage</span>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    // Window controls
+    document.querySelector('.min-button').addEventListener('click', () => {
+      window.api.minimizeWindow();
+    });
+    document.querySelector('.max-button').addEventListener('click', () => {
+      window.api.toggleMaximizeWindow();
+    });
+    document.querySelector('.close').addEventListener('click', () => {
+      window.api.closeWindow();
+    });
+
+    document.getElementById('help-menu').addEventListener('click', () => {
+      window.api.openAbout();
+    });
+
+    document.getElementById('messenger-menu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('messenger-dropdown').classList.toggle('show');
+    });
+
+    document.getElementById('open-prefs-item').addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.api.openPreferences();
+      document.getElementById('messenger-dropdown').classList.remove('show');
+    });
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', () => {
+      document.getElementById('messenger-dropdown').classList.remove('show');
+    });
+
+    // Handle contact clicks to open chat
+    document.querySelectorAll('.contact-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const contactName = item.querySelector('.contact-name').textContent;
+        window.api.openChat({ name: contactName });
+      });
+    });
+  </script>
+</body>
+
+</html>

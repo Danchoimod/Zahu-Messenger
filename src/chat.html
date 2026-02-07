@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cici NgocHanh - Chat</title>
+    <link rel="stylesheet" href="styles/chat.css">
+</head>
+
+<body>
+    <div class="chat-window">
+        <!-- Title Bar -->
+        <div class="retro-title-bar">
+            <div class="title-left">
+                <span class="title-logo">Cici NgocHanh</span> - Conversation
+            </div>
+            <div class="window-controls">
+                <div class="control-btn min-button"><i data-lucide="minus"></i></div>
+                <div class="control-btn max-button"><i data-lucide="square"></i></div>
+                <div class="control-btn close"><i data-lucide="x"></i></div>
+            </div>
+        </div>
+
+        <!-- Menu Bar -->
+        <div class="menu-bar">
+            <div class="menu-item">Conversation</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Actions</div>
+            <div class="menu-item">Help</div>
+        </div>
+
+        <!-- Main Toolbar -->
+        <div class="toolbar-main">
+            <div class="toolbar-item">
+                <i data-lucide="video"></i>
+                <span>Video Call</span>
+            </div>
+            <div class="toolbar-item">
+                <i data-lucide="mic"></i>
+                <span>Voice Call</span>
+            </div>
+            <div style="flex: 1;"></div>
+            <div class="toolbar-item">
+                <i data-lucide="leaf"></i>
+                <span>IMVironments</span>
+            </div>
+            <div class="toolbar-item">
+                <i data-lucide="gamepad-2"></i>
+                <span>Activities</span>
+            </div>
+            <div class="toolbar-item">
+                <i data-lucide="image"></i>
+                <span>Photos</span>
+            </div>
+        </div>
+
+        <!-- Status Message -->
+        <div class="status-row">
+            <span class="status-dot"></span>
+            <span>Cici NgocHanh</span>
+        </div>
+
+        <!-- Chat History Area -->
+        <div class="chat-area-container">
+            <div class="chat-history">
+                <a class="recent-msg-link">Show Recent Messages</a> <span>(F3)</span>
+
+                <div class="system-message">
+                    <span class="offline-icon"></span>
+                    Cici NgocHanh appears to be offline and will receive your messages after signing in. You can also
+                    send a message to Cici NgocHanh's mobile phone.
+                    <br>
+                    <a class="sms-link">
+                        <i data-lucide="smartphone" style="width: 14px; height: 14px;"></i>
+                        Send an SMS Message (Ctrl+T)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formatting Toolbar -->
+        <div class="formatting-toolbar">
+            <div class="format-btn"><i data-lucide="smile" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn"><i data-lucide="megaphone" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn"><i data-lucide="type" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn"><i data-lucide="palette" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn"><i data-lucide="paperclip" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn"><i data-lucide="monitor" style="width:16px; height:16px;"></i></div>
+        </div>
+
+        <!-- Send As -->
+        <div class="send-as-container">
+            <span>Send As:</span>
+            <select class="send-as-select">
+                <option>phuongphieudieu</option>
+            </select>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-container">
+            <textarea class="chat-input"></textarea>
+            <button class="send-btn">Send</button>
+        </div>
+
+        <!-- Bottom Status/Tabs -->
+        <div class="bottom-tabs">
+            <div class="tab-item">Cici Ngo...</div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        // Window controls
+        document.querySelector('.min-button').addEventListener('click', () => {
+            if (window.api) window.api.minimizeWindow();
+        });
+        document.querySelector('.max-button').addEventListener('click', () => {
+            if (window.api) window.api.toggleMaximizeWindow();
+        });
+        document.querySelector('.close').addEventListener('click', () => {
+            if (window.api) window.api.closeWindow();
+        });
+    </script>
+</body>
+
+</html>
