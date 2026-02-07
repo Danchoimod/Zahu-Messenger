@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Details</title>
+    <style>
+        :root {
+            --yahoo-grey: #f0f0f0;
+            --border-grey: #999;
+            --title-bar-bg: linear-gradient(to bottom, #bd7e9d, #a63d7a);
+            --yahoo-purple: #82225e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--yahoo-grey);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #77246F;
+            overflow: hidden;
+        }
+
+        .retro-title-bar {
+            background: var(--title-bar-bg);
+            height: 35px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            justify-content: space-between;
+            color: white;
+            -webkit-app-region: drag;
+        }
+
+        .title-left {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .window-controls {
+            -webkit-app-region: no-drag;
+            display: flex;
+            gap: 5px;
+        }
+
+        .control-btn {
+            width: 26px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .control-btn:hover {
+            background: #e81123;
+        }
+
+        .content {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-group-row {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        .label-text {
+            font-size: 12px;
+            font-weight: bold;
+            width: 80px;
+            text-align: right;
+            padding-top: 4px;
+        }
+
+        .inputs-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .name-fields {
+            display: flex;
+            gap: 10px;
+        }
+
+        .field-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .field-item input {
+            padding: 3px 5px;
+            border: 1px solid var(--border-grey);
+            font-size: 12px;
+            outline: none;
+        }
+
+        .field-caption {
+            font-size: 10px;
+            color: #666;
+        }
+
+        .tabs-container {
+            margin-top: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 2px;
+            padding-left: 10px;
+        }
+
+        .tab {
+            background: #e1e1e1;
+            padding: 4px 12px;
+            font-size: 12px;
+            border: 1px solid var(--border-grey);
+            border-bottom: none;
+            cursor: pointer;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .tab.active {
+            background: white;
+            font-weight: bold;
+            position: relative;
+            top: 1px;
+            z-index: 10;
+        }
+
+        .tab-content {
+            background: white;
+            border: 1px solid var(--border-grey);
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .details-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .details-label {
+            width: 90px;
+            text-align: right;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .details-values {
+            flex: 1;
+            display: flex;
+            gap: 15px;
+        }
+
+        .value-box {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+
+        .value-box input {
+            padding: 3px 5px;
+            border: 1px solid var(--border-grey);
+            font-size: 12px;
+            width: 100%;
+        }
+
+        .value-label {
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .messenger-ids {
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .id-input-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-btn {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--border-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            background: #eee;
+        }
+
+        .footer-buttons {
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 4px 20px;
+            font-size: 12px;
+            border: 1px solid #707070;
+            background: #f0f0f0;
+            cursor: pointer;
+            border-radius: 2px;
+            min-width: 80px;
+        }
+
+        .btn:hover {
+            background: #e5e5e5;
+        }
+
+        .btn.primary {
+            border: 1px double #000;
+            outline: 1px dotted #000;
+            outline-offset: -4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="retro-title-bar">
+        <div class="title-left">Contact Details</div>
+        <div class="window-controls">
+            <div class="control-btn close" onclick="window.close()"><i data-lucide="x"></i></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="input-group-row">
+            <div class="label-text">Full Name:</div>
+            <div class="inputs-container">
+                <div class="name-fields">
+                    <div class="field-item">
+                        <input type="text" value="Kool">
+                        <span class="field-caption">First</span>
+                    </div>
+                    <div class="field-item">
+                        <input type="text">
+                        <span class="field-caption">Middle</span>
+                    </div>
+                    <div class="field-item">
+                        <input type="text" value="Bi">
+                        <span class="field-caption">Last</span>
+                    </div>
+                </div>
+                <div class="name-fields">
+                    <div class="field-item">
+                        <input type="text">
+                        <span class="field-caption">Nickname</span>
+                    </div>
+                    <div class="field-item">
+                        <input type="text">
+                        <span class="field-caption">Title</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <div class="tab active">General</div>
+                <div class="tab">Home</div>
+                <div class="tab">Work</div>
+                <div class="tab">Dates</div>
+                <div class="tab">Notes</div>
+                <div class="tab">Other</div>
+            </div>
+            <div class="tab-content">
+                <div class="details-row">
+                    <div class="details-label">Phone Numbers:</div>
+                    <div class="details-values">
+                        <div class="value-box">
+                            <span class="value-label">Home</span>
+                            <input type="text">
+                        </div>
+                        <div class="value-box">
+                            <span class="value-label">Work</span>
+                            <input type="text">
+                        </div>
+                        <div class="value-box">
+                            <span class="value-label">Mobile</span>
+                            <input type="text" value="01685998999">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-row">
+                    <div class="details-label">Email Address:</div>
+                    <div class="details-values">
+                        <input type="text" value="nguyendiemmy1993@gmail.com"
+                            style="padding: 3px 5px; border: 1px solid var(--border-grey); font-size: 12px; width: 100%;">
+                    </div>
+                </div>
+
+                <div class="messenger-ids">
+                    <div class="details-row">
+                        <div class="details-label">Messenger IDs:</div>
+                        <div class="details-values" style="flex-direction: column; gap: 10px;">
+                            <div style="display: flex; gap: 30px;">
+                                <div class="value-box">
+                                    <span class="value-label">Yahoo!</span>
+                                    <div class="id-input-container">
+                                        <input type="text" value="ko0l.bi_9x" readonly style="background: #eee;">
+                                        <div class="add-btn">×</div>
+                                    </div>
+                                </div>
+                                <div class="value-box">
+                                    <span class="value-label">Windows Live</span>
+                                    <div class="id-input-container">
+                                        <input type="text">
+                                        <div class="add-btn">+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-buttons">
+        <button class="btn primary" onclick="window.close()">OK</button>
+        <button class="btn" onclick="window.close()">Cancel</button>
+        <button class="btn" disabled>Apply</button>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

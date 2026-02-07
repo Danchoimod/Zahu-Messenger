@@ -200,6 +200,22 @@ ipcMain.on('open-change-name', (event) => {
   changeNameWindow.loadFile(path.join(__dirname, 'change_name.html'));
 });
 
+ipcMain.on('open-contact-details', () => {
+  const detailsWin = new BrowserWindow({
+    width: 600,
+    height: 550,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+
+  detailsWin.loadFile(path.join(__dirname, 'contact_details.html'));
+});
+
 ipcMain.on('open-close-confirm', (event) => {
   const parent = BrowserWindow.fromWebContents(event.sender);
   const confirmWindow = new BrowserWindow({

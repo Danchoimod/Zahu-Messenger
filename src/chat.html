@@ -102,7 +102,7 @@
                     </div>
                     <div class="dropdown-item">Request Contact Details <span class="shortcut">Ctrl+Shift+R</span></div>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-item">Buzz <span class="shortcut">Ctrl+G</span></div>
+                    <div class="dropdown-item" id="menu-buzz">Buzz <span class="shortcut">Ctrl+G</span></div>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-item disabled">Send a File...</div>
                     <div class="dropdown-item">Share Photos...</div>
@@ -203,6 +203,7 @@
             <div class="tab-item">Cici Ngo...</div>
         </div>
     </div>
+    <audio id="buzz-sound" src="sound/messenger_buzz.mp3"></audio>
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -278,6 +279,40 @@
         // Close dropdown when clicking outside
         window.addEventListener('click', () => {
             closeAllDropdowns();
+        });
+
+        // Buzz Functionality
+        function triggerBuzz() {
+            const buzzSound = document.getElementById('buzz-sound');
+            const chatWindow = document.querySelector('.chat-window');
+
+            if (buzzSound) {
+                buzzSound.currentTime = 0;
+                buzzSound.play();
+            }
+
+            if (chatWindow) {
+                chatWindow.classList.remove('shake');
+                void chatWindow.offsetWidth; // Trigger reflow
+                chatWindow.classList.add('shake');
+                setTimeout(() => {
+                    chatWindow.classList.remove('shake');
+                }, 1000);
+            }
+        }
+
+        document.getElementById('menu-buzz').addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerBuzz();
+            closeAllDropdowns();
+        });
+
+        // Shortcut Ctrl+G
+        window.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key.toLowerCase() === 'g') {
+                e.preventDefault();
+                triggerBuzz();
+            }
         });
     </script>
 </body>

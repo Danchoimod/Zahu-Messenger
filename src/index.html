@@ -546,7 +546,7 @@
           <div class="dropdown-item">No Incoming Calls</div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item">Yahoo! Insider</div>
-          <div class="dropdown-item">My Contact Details</div>
+          <div class="dropdown-item" id="menu-my-contact-details">My Contact Details</div>
           <div class="dropdown-item">My Account Info</div>
           <div class="dropdown-item">My Display Image <span class="shortcut">Ctrl+Shift+F8</span></div>
           <div class="dropdown-item">My Webcam</div>
@@ -881,6 +881,12 @@
         const contactName = item.querySelector('.contact-name').textContent;
         window.api.openChat({ name: contactName });
       });
+    });
+
+    document.getElementById('menu-my-contact-details').addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.api.openContactDetails();
+      closeAllDropdowns();
     });
 
     // Tab switching logic
