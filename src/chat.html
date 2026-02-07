@@ -179,7 +179,7 @@
             <div class="format-btn" id="emoji-btn"><i data-lucide="smile" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="megaphone" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="type" style="width:16px; height:16px;"></i></div>
-            <div class="format-btn"><i data-lucide="palette" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn" id="color-btn"><i data-lucide="palette" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="paperclip" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="monitor" style="width:16px; height:16px;"></i></div>
         </div>
@@ -225,6 +225,43 @@
                 <span class="emoji-item" onclick="addEmoji('😱')">😱</span>
                 <span class="emoji-item" onclick="addEmoji('🤫')">🤫</span>
             </div>
+        </div>
+
+        <div id="color-picker" class="color-picker-modal">
+            <div class="color-list">
+                <div class="color-item" onclick="changeColor('#000000')">
+                    <div class="color-swatch" style="background: #000000;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#FF0000')">
+                    <div class="color-swatch" style="background: #FF0000;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#008000')">
+                    <div class="color-swatch" style="background: #008000;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#808000')">
+                    <div class="color-swatch" style="background: #808000;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#0000FF')">
+                    <div class="color-swatch" style="background: #0000FF;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#800080')">
+                    <div class="color-swatch" style="background: #800080;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#008080')">
+                    <div class="color-swatch" style="background: #008080;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#FFA500')">
+                    <div class="color-swatch" style="background: #FFA500;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#FF69B4')">
+                    <div class="color-swatch" style="background: #FF69B4;"></div>
+                </div>
+                <div class="color-item" onclick="changeColor('#808080')">
+                    <div class="color-swatch" style="background: #808080;"></div>
+                </div>
+            </div>
+            <div class="color-picker-footer">Các màu khác...</div>
+            <div class="color-picker-footer">Hiệu ứng mà...</div>
         </div>
 
         <!-- Bottom Status/Tabs -->
@@ -376,7 +413,35 @@
             if (emojiPicker.style.display === 'block' && !emojiPicker.contains(e.target) && e.target !== emojiBtn) {
                 emojiPicker.style.display = 'none';
             }
+            if (colorPicker.style.display === 'block' && !colorPicker.contains(e.target) && e.target !== colorBtn) {
+                colorPicker.style.display = 'none';
+            }
         });
+
+        // Color Logic
+        const colorBtn = document.getElementById('color-btn');
+        const colorPicker = document.getElementById('color-picker');
+
+        colorBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const rect = colorBtn.getBoundingClientRect();
+            const isVisible = colorPicker.style.display === 'block';
+
+            // Close other modals
+            emojiPicker.style.display = 'none';
+
+            colorPicker.style.display = isVisible ? 'none' : 'block';
+
+            if (!isVisible) {
+                colorPicker.style.bottom = (window.innerHeight - rect.top + 5) + 'px';
+                colorPicker.style.left = rect.left + 'px';
+            }
+        });
+
+        window.changeColor = function (color) {
+            chatInput.style.color = color;
+            colorPicker.style.display = 'none';
+        };
     </script>
 </body>
 
