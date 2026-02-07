@@ -271,7 +271,8 @@
 
     .profile-actions {
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
       margin-top: 5px;
       font-size: 11px;
     }
@@ -549,8 +550,11 @@
           Have something to share?
         </div>
         <div class="profile-actions">
-          <span><i data-lucide="gamepad-2" style="width: 12px; height: 12px;"></i> Games</span>
-          <span><i data-lucide="mail" style="width: 12px; height: 12px;"></i></span>
+          <span><i data-lucide="phone" style="width: 12px; height: 12px;"></i></span>
+          <div style="display: flex; gap: 10px;">
+            <span><i data-lucide="gamepad-2" style="width: 12px; height: 12px;"></i> Games</span>
+            <span><i data-lucide="mail" style="width: 12px; height: 12px;"></i></span>
+          </div>
         </div>
       </div>
     </div>

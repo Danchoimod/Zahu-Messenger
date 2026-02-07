@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('api', {
   openAddFriend: () => ipcRenderer.send('open-add-friend'),
   openSendIm: () => ipcRenderer.send('open-send-im'),
   openCloseConfirm: () => ipcRenderer.send('open-close-confirm'),
+  openChangeName: () => ipcRenderer.send('open-change-name'),
   handleCloseTabsResponse: (data) => ipcRenderer.send('handle-close-tabs-response', data),
 });
 

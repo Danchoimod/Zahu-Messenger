@@ -179,6 +179,25 @@ ipcMain.on('open-send-im', () => {
 });
 
 
+ipcMain.on('open-change-name', (event) => {
+  const parent = BrowserWindow.fromWebContents(event.sender);
+  const changeNameWindow = new BrowserWindow({
+    width: 400,
+    height: 200,
+    parent: parent,
+    modal: true,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+
+  changeNameWindow.loadFile(path.join(__dirname, 'change_name.html'));
+});
+
 ipcMain.on('open-close-confirm', (event) => {
   const parent = BrowserWindow.fromWebContents(event.sender);
   const confirmWindow = new BrowserWindow({

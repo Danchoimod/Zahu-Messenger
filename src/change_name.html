@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Name</title>
+    <link rel="stylesheet" href="styles/windows.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <style>
+        :root {
+            --yahoo-purple: #82225e;
+            --yahoo-purple-dark: #5a1240;
+            --yahoo-purple-light: #77246F;
+            --yahoo-mauve: #bd7e9d;
+            --title-bar-bg: linear-gradient(to bottom, #bd7e9d, #a63d7a);
+        }
+
+        body {
+            background: var(--yahoo-purple);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #000;
+            height: 100vh;
+        }
+
+        .retro-title-bar {
+            background: var(--title-bar-bg);
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            justify-content: space-between;
+            color: white;
+            -webkit-app-region: drag;
+        }
+
+        .title-left {
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        .window-controls {
+            display: flex;
+            -webkit-app-region: no-drag;
+        }
+
+        .control-btn {
+            width: 26px;
+            height: 18px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .control-btn.close:hover {
+            background: #e81123;
+        }
+
+        .content-padding {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .label-text {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #999;
+            outline: none;
+            color: black;
+            font-size: 14px;
+        }
+
+        .sub-label {
+            font-size: 11px;
+            color: #ccc;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .zahu-btn {
+            padding: 3px 25px !important;
+            font-size: 12px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="retro-title-bar">
+        <div class="title-left">Name Information</div>
+        <div class="window-controls">
+            <div class="control-btn close" id="close-x"><i data-lucide="x"></i></div>
+        </div>
+    </div>
+
+    <div class="content-padding">
+        <div class="label-text">
+            Enter your name as you want it to appear in this request:
+        </div>
+
+        <div class="input-row">
+            <div class="input-group">
+                <input type="text" value="guess" id="first-name">
+                <div class="sub-label"><u>F</u>irst</div>
+            </div>
+            <div class="input-group">
+                <input type="text" value="hani" id="last-name">
+                <div class="sub-label"><u>L</u>ast</div>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="zahu-btn" id="ok-btn">OK</button>
+            <button class="zahu-btn" id="cancel-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        document.getElementById('ok-btn').addEventListener('click', () => {
+            window.api.closeWindow();
+        });
+
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            window.api.closeWindow();
+        });
+
+        document.getElementById('close-x').addEventListener('click', () => {
+            window.api.closeWindow();
+        });
+    </script>
+</body>
+
+</html>
