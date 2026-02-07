@@ -176,7 +176,7 @@
 
         <!-- Formatting Toolbar -->
         <div class="formatting-toolbar">
-            <div class="format-btn"><i data-lucide="smile" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn" id="emoji-btn"><i data-lucide="smile" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="megaphone" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="type" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="palette" style="width:16px; height:16px;"></i></div>
@@ -194,8 +194,37 @@
 
         <!-- Input Area -->
         <div class="input-container">
-            <textarea class="chat-input"></textarea>
+            <textarea class="chat-input" id="chat-input"></textarea>
             <button class="send-btn">Send</button>
+        </div>
+
+        <div id="emoji-picker" class="emoji-picker-modal">
+            <div class="emoji-grid">
+                <span class="emoji-item" onclick="addEmoji('😀')">😀</span>
+                <span class="emoji-item" onclick="addEmoji('😂')">😂</span>
+                <span class="emoji-item" onclick="addEmoji('🥰')">🥰</span>
+                <span class="emoji-item" onclick="addEmoji('😍')">😍</span>
+                <span class="emoji-item" onclick="addEmoji('😭')">😭</span>
+                <span class="emoji-item" onclick="addEmoji('😩')">😩</span>
+                <span class="emoji-item" onclick="addEmoji('😡')">😡</span>
+                <span class="emoji-item" onclick="addEmoji('😎')">😎</span>
+                <span class="emoji-item" onclick="addEmoji('🤔')">🤔</span>
+                <span class="emoji-item" onclick="addEmoji('😏')">😏</span>
+                <span class="emoji-item" onclick="addEmoji('😴')">😴</span>
+                <span class="emoji-item" onclick="addEmoji('😇')">😇</span>
+                <span class="emoji-item" onclick="addEmoji('🥳')">🥳</span>
+                <span class="emoji-item" onclick="addEmoji('🤩')">🤩</span>
+                <span class="emoji-item" onclick="addEmoji('🤐')">🤐</span>
+                <span class="emoji-item" onclick="addEmoji('🤫')">🤫</span>
+                <span class="emoji-item" onclick="addEmoji('🤥')">🤥</span>
+                <span class="emoji-item" onclick="addEmoji('😶')">😶</span>
+                <span class="emoji-item" onclick="addEmoji('🤤')">🤤</span>
+                <span class="emoji-item" onclick="addEmoji('🤒')">🤒</span>
+                <span class="emoji-item" onclick="addEmoji('😤')">😤</span>
+                <span class="emoji-item" onclick="addEmoji('🤯')">🤯</span>
+                <span class="emoji-item" onclick="addEmoji('😱')">😱</span>
+                <span class="emoji-item" onclick="addEmoji('🤫')">🤫</span>
+            </div>
         </div>
 
         <!-- Bottom Status/Tabs -->
@@ -312,6 +341,40 @@
             if (e.ctrlKey && e.key.toLowerCase() === 'g') {
                 e.preventDefault();
                 triggerBuzz();
+            }
+        });
+
+        // Emoji Logic
+        const emojiBtn = document.getElementById('emoji-btn');
+        const emojiPicker = document.getElementById('emoji-picker');
+        const chatInput = document.getElementById('chat-input');
+
+        emojiBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const rect = emojiBtn.getBoundingClientRect();
+            emojiPicker.style.display = emojiPicker.style.display === 'block' ? 'none' : 'block';
+
+            // Position modal above/near the button
+            if (emojiPicker.style.display === 'block') {
+                emojiPicker.style.bottom = (window.innerHeight - rect.top + 5) + 'px';
+                emojiPicker.style.left = rect.left + 'px';
+            }
+        });
+
+        window.addEmoji = function (emoji) {
+            const start = chatInput.selectionStart;
+            const end = chatInput.selectionEnd;
+            const text = chatInput.value;
+            chatInput.value = text.substring(0, start) + emoji + text.substring(end);
+            chatInput.focus();
+            chatInput.selectionStart = chatInput.selectionEnd = start + emoji.length;
+            emojiPicker.style.display = 'none';
+        };
+
+        // Close picker when clicking outside
+        window.addEventListener('click', (e) => {
+            if (emojiPicker.style.display === 'block' && !emojiPicker.contains(e.target) && e.target !== emojiBtn) {
+                emojiPicker.style.display = 'none';
             }
         });
     </script>

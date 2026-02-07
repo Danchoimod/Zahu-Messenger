@@ -448,3 +448,40 @@ body {
     animation: shake 0.5s;
     animation-iteration-count: 2;
 }
+
+/* Emoji Picker Styles */
+.emoji-picker-modal {
+    display: none;
+    position: absolute;
+    background: #FFFEF7;
+    border: 1px solid #999;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    z-index: 10000;
+    padding: 2px;
+    width: 250px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+}
+
+.emoji-item {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    border: 1px solid transparent;
+}
+
+.emoji-item:hover {
+    background-color: #BD7E9D50;
+    border: 1px solid #BD7E9D;
+}
