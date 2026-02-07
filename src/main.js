@@ -12,6 +12,7 @@ const createWindow = () => {
     minHeight: 400,
     resizable: false,
     frame: false, // Disable default title bar
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -105,6 +106,7 @@ ipcMain.on('open-about', () => {
     y: 100, // Thử đặt ở tọa độ 100
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -122,6 +124,7 @@ ipcMain.on('open-chat', (event, user) => {
     minWidth: 500,
     minHeight: 400,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -138,6 +141,7 @@ ipcMain.on('open-preferences', () => {
     height: 600,
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -154,6 +158,7 @@ ipcMain.on('open-add-friend', () => {
     height: 500,
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -170,6 +175,7 @@ ipcMain.on('open-send-im', () => {
     height: 600,
     resizable: true,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -190,6 +196,7 @@ ipcMain.on('open-change-name', (event) => {
     modal: true,
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -206,6 +213,7 @@ ipcMain.on('open-contact-details', () => {
     height: 550,
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -225,6 +233,7 @@ ipcMain.on('open-close-confirm', (event) => {
     modal: true,
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -244,6 +253,7 @@ ipcMain.on('open-signout-confirm', (event) => {
     modal: true,
     resizable: false,
     frame: false,
+    icon: path.join(__dirname, 'img/app_icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
