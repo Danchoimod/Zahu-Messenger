@@ -227,8 +227,28 @@
       height: 50px;
       border: 2px solid white;
       background: #ccc;
-      overflow: hidden;
+      overflow: visible;
       position: relative;
+      cursor: pointer;
+    }
+
+    .avatar-dropdown {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 55px;
+      /* Positioned to the right of the 50px avatar */
+      background: #F0F0F0;
+      border: 1px solid #999;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+      z-index: 2000;
+      min-width: 250px;
+      padding: 2px;
+      color: #333;
+    }
+
+    .avatar-dropdown.show {
+      display: block;
     }
 
     .avatar-placeholder {
@@ -613,8 +633,16 @@
 
     <!-- User Profile Section -->
     <div class="user-profile">
-      <div class="avatar-container">
+      <div class="avatar-container" id="user-avatar-container">
         <div class="avatar-placeholder"><i data-lucide="user"></i></div>
+        <div class="avatar-dropdown dropdown" id="avatar-dropdown">
+          <div class="dropdown-item">Image preview...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Choose image...</div>
+          <div class="dropdown-item">Create Avatar</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Switch to a personalized mood avatar</div>
+        </div>
       </div>
       <div class="user-details">
         <div class="username-row">
@@ -832,6 +860,14 @@
       e.stopPropagation();
       window.api.openSignoutConfirm();
       closeAllDropdowns();
+    });
+
+    document.getElementById('user-avatar-container').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dropdown = document.getElementById('avatar-dropdown');
+      const isShow = dropdown.classList.contains('show');
+      closeAllDropdowns();
+      if (!isShow) dropdown.classList.add('show');
     });
 
     // Close dropdowns when clicking outside

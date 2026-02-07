@@ -8,6 +8,8 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 400,
     height: 800,
+    minWidth: 500,
+    minHeight: 400,
     resizable: false,
     frame: false, // Disable default title bar
     webPreferences: {
