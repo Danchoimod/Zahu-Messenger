@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Out</title>
+    <link rel="stylesheet" href="styles/windows.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <style>
+        body {
+            background-color: #F0F0F0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 1px solid #77246F;
+        }
+
+        .modal-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .retro-title-bar {
+            background: linear-gradient(to bottom, #bd7e9d, #a63d7a);
+            height: 35px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            justify-content: space-between;
+            color: white;
+            -webkit-app-region: drag;
+        }
+
+        .title-left {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .window-controls {
+            -webkit-app-region: no-drag;
+            display: flex;
+            align-items: center;
+        }
+
+        .control-btn {
+            cursor: pointer;
+            width: 26px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px;
+        }
+
+        .control-btn:hover {
+            background: #e81123;
+        }
+
+        .modal-body {
+            flex: 1;
+            padding: 15px 20px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .icon-container {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+
+        .yahoo-mascot {
+            font-family: serif;
+            font-weight: bold;
+            font-size: 28px;
+            color: #82225e;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .smiley-face {
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border-radius: 50%;
+            border: 1px solid #000;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .message-text {
+            font-size: 12px;
+            color: #000;
+            line-height: 1.4;
+            padding-top: 5px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .zahu-btn {
+            min-width: 80px;
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+
+        /* Re-creating the zahu-btn style if not fully defined in button.css */
+        .zahu-btn {
+            background: #f0f0f0;
+            border: 1px solid #707070;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .zahu-btn:hover {
+            background: #e5e5e5;
+            border-color: #3c7fb1;
+        }
+
+        .zahu-btn:active {
+            background: #c5c5c5;
+        }
+
+        .zahu-btn.default {
+            border: 1px double #000;
+            outline: 1px dotted #000;
+            outline-offset: -4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="modal-container">
+        <div class="retro-title-bar">
+            <div class="title-left">Sign Out</div>
+            <div class="window-controls">
+                <div class="control-btn close" onclick="closeConfirm('no')">
+                    <i data-lucide="x"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="icon-container">
+                <div class="yahoo-mascot">Y!</div>
+                <div class="smiley-face">😃</div>
+            </div>
+            <div class="message-text">
+                Are you sure you want to sign out of Zahu! Messenger?<br>
+                You will not be able to send or receive messages.
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="zahu-btn default" onclick="closeConfirm('yes')">Yes</button>
+            <button class="zahu-btn" onclick="closeConfirm('no')">No</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        function closeConfirm(action) {
+            if (window.api) {
+                window.api.handleSignoutResponse({ action: action });
+            } else {
+                window.close();
+            }
+        }
+    </script>
+</body>
+
+</html>

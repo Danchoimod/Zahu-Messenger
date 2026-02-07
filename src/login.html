@@ -23,7 +23,24 @@
         </div>
         <div class="menu-bar">
             <div class="menu-item" id="messenger-menu">Messenger</div>
-            <div class="menu-item" id="help-menu">Help</div>
+            <div class="menu-item" id="help-menu">
+                Help
+                <div class="dropdown" id="help-dropdown">
+                    <div class="dropdown-item">Messenger Help <span class="shortcut">F1</span></div>
+                    <div class="dropdown-item">Set up Video and Voice</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Report Abuse</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Messenger Homepage</div>
+                    <div class="dropdown-item">Check for Updates</div>
+                    <div class="dropdown-item">Send Feedback...</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Report a Problem to Yahoo!</div>
+                    <div class="dropdown-item" style="color: #999;">Turn off Diagnostic Logs</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="menu-about">About Yahoo! Messenger</div>
+                </div>
+            </div>
         </div>
 
         <div class="login-content" id="login-form-content">
@@ -61,7 +78,7 @@
 
 
                 <div class="footer-links">
-                    <a href="#">Get a new Yahoo! ID...</a>
+                    <a href="#">Get a new Zahu! ID...</a>
                     <a href="#">Forgot your password?</a>
                 </div>
             </div>
@@ -112,8 +129,21 @@
             window.api.closeWindow();
         });
 
-        document.getElementById('help-menu').addEventListener('click', () => {
+        document.getElementById('help-menu').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = document.getElementById('help-dropdown');
+            dropdown.classList.toggle('show');
+        });
+
+        document.getElementById('menu-about').addEventListener('click', (e) => {
+            e.stopPropagation();
             window.api.openAbout();
+            document.getElementById('help-dropdown').classList.remove('show');
+        });
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            document.getElementById('help-dropdown').classList.remove('show');
         });
 
         document.getElementById('messenger-menu').addEventListener('click', () => {

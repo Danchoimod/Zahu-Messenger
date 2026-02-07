@@ -86,10 +86,13 @@ body {
 
 .menu-item {
     cursor: pointer;
+    position: relative;
+    padding: 2px 5px;
 }
 
 .menu-item:hover {
-    text-decoration: underline;
+    background: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
 }
 
 .login-content {

@@ -217,6 +217,40 @@ ipcMain.on('open-close-confirm', (event) => {
   confirmWindow.loadFile(path.join(__dirname, 'close_confirm.html'));
 });
 
+ipcMain.on('open-signout-confirm', (event) => {
+  const parent = BrowserWindow.fromWebContents(event.sender);
+  const confirmWindow = new BrowserWindow({
+    width: 450,
+    height: 200,
+    parent: parent,
+    modal: true,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+
+  confirmWindow.loadFile(path.join(__dirname, 'signout_confirm.html'));
+});
+
+ipcMain.on('handle-signout-response', (event, data) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  const parent = win.getParentWindow();
+  win.close();
+
+  if (data.action === 'yes') {
+    if (parent) {
+      parent.setSize(400, 800);
+      parent.setResizable(false);
+      parent.center();
+      parent.loadFile(path.join(__dirname, 'login.html'));
+    }
+  }
+});
+
 ipcMain.on('handle-close-tabs-response', (event, data) => {
   const win = BrowserWindow.fromWebContents(event.sender);
   const parent = win.getParentWindow();

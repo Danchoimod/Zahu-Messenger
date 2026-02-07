@@ -18,6 +18,8 @@ contextBridge.exposeInMainWorld('api', {
   openCloseConfirm: () => ipcRenderer.send('open-close-confirm'),
   openChangeName: () => ipcRenderer.send('open-change-name'),
   handleCloseTabsResponse: (data) => ipcRenderer.send('handle-close-tabs-response', data),
+  openSignoutConfirm: () => ipcRenderer.send('open-signout-confirm'),
+  handleSignoutResponse: (data) => ipcRenderer.send('handle-signout-response', data),
 });
 
 

@@ -465,7 +465,7 @@
           <div class="dropdown-item">Manage Updates I Broadcast...</div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item">Sign In to Mobile Phone... <span class="shortcut">Ctrl+Shift+D</span></div>
-          <div class="dropdown-item">Sign Out <span class="shortcut">Ctrl+D</span></div>
+          <div class="dropdown-item" id="menu-sign-out">Sign Out <span class="shortcut">Ctrl+D</span></div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item">Close <span class="shortcut">Ctrl+Q</span></div>
         </div>
@@ -690,6 +690,12 @@
     document.getElementById('open-prefs-item').addEventListener('click', (e) => {
       e.stopPropagation();
       window.api.openPreferences();
+      closeAllDropdowns();
+    });
+
+    document.getElementById('menu-sign-out').addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.api.openSignoutConfirm();
       closeAllDropdowns();
     });
 
