@@ -168,6 +168,41 @@
       margin: 2px 5px;
     }
 
+    /* Submenu Styles */
+    .submenu {
+      display: none;
+      position: absolute;
+      top: -2px;
+      left: 100%;
+      background: #FEFEF2;
+      border: 1px solid #999;
+      box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      min-width: 200px;
+      padding: 2px;
+      color: #333;
+    }
+
+    .dropdown-item:hover>.submenu {
+      display: block;
+    }
+
+    .status-dot-mini {
+      width: 7px;
+      height: 7px;
+      background: transparent;
+      border-radius: 50%;
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .status-dot-mini.active {
+      background: #222;
+      border: 1px solid #000;
+    }
+
     .shortcut {
       color: #777;
       font-size: 11px;
@@ -398,7 +433,19 @@
       <div class="menu-item" id="messenger-menu">
         Messenger
         <div class="dropdown" id="messenger-dropdown">
-          <div class="dropdown-item has-submenu">My Availability</div>
+          <div class="dropdown-item has-submenu">
+            My Availability
+            <div class="submenu">
+              <div class="dropdown-item"><span class="status-dot-mini active"></span>Available <span
+                  class="shortcut">Ctrl+Alt+A</span></div>
+              <div class="dropdown-item"><span class="status-dot-mini"></span>Busy <span
+                  class="shortcut">Ctrl+Alt+B</span></div>
+              <div class="dropdown-item"><span class="status-dot-mini"></span>Invisible to Everyone <span
+                  class="shortcut">Ctrl+Alt+I</span></div>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item">My Status Message</div>
+            </div>
+          </div>
           <div class="dropdown-item">No Incoming Calls</div>
           <div class="dropdown-divider"></div>
           <div class="dropdown-item">Yahoo! Insider</div>
@@ -427,10 +474,64 @@
         <div class="dropdown" id="contacts-dropdown">
           <div class="dropdown-item" id="menu-add-contact">Add a Contact... <span class="shortcut">Ctrl+Shift+A</span>
           </div>
+          <div class="dropdown-item">Add an Address Book Contact</div>
+          <div class="dropdown-item">Import Contacts...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item has-submenu">Manage Groups</div>
+          <div class="dropdown-item">Delete...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item has-submenu">Stealth Settings</div>
+          <div class="dropdown-item">Contact Details</div>
+          <div class="dropdown-item">Conversation History <span class="shortcut">Alt+Shift+V</span></div>
+          <div class="dropdown-item">View Profile</div>
+          <div class="dropdown-item has-submenu">Ringtone</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Compact List <span class="shortcut">Ctrl+Alt+C</span></div>
+          <div class="dropdown-item"><span class="status-dot-mini active"></span>Detailed List <span
+              class="shortcut">Ctrl+Alt+D</span></div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item has-submenu">Show/Hide</div>
         </div>
       </div>
-      <div class="menu-item">Actions</div>
-      <div class="menu-item" id="help-menu">Help</div>
+      <div class="menu-item" id="actions-menu">
+        Actions
+        <div class="dropdown" id="actions-dropdown">
+          <div class="dropdown-item">Send an Instant Message... <span class="shortcut">Ctrl+M</span></div>
+          <div class="dropdown-item">Start Video Call... <span class="shortcut">Ctrl+J</span></div>
+          <div class="dropdown-item">Start Voice Call... <span class="shortcut">Ctrl+L</span></div>
+          <div class="dropdown-item">Send an SMS Message... <span class="shortcut">Ctrl+T</span></div>
+          <div class="dropdown-item">Send an Email... <span class="shortcut">Ctrl+Y</span></div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Send My Contact Details... <span class="shortcut">Ctrl+Shift+C</span></div>
+          <div class="dropdown-item">Send My Messenger List... <span class="shortcut">Ctrl+Shift+M</span></div>
+          <div class="dropdown-item">Request Contact Details <span class="shortcut">Ctrl+Shift+R</span></div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Send a File...</div>
+          <div class="dropdown-item">Share Photos...</div>
+          <div class="dropdown-item">Choose Plug-in...</div>
+          <div class="dropdown-item">Invite to Conference...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item has-submenu">More Actions</div>
+        </div>
+      </div>
+      <div class="menu-item" id="help-menu">
+        Help
+        <div class="dropdown" id="help-dropdown">
+          <div class="dropdown-item">Messenger Help <span class="shortcut">F1</span></div>
+          <div class="dropdown-item">Set up Video and Voice</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Report Abuse</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Messenger Homepage</div>
+          <div class="dropdown-item">Check for Updates</div>
+          <div class="dropdown-item">Send Feedback...</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item">Report a Problem to Yahoo!</div>
+          <div class="dropdown-item" style="color: #999;">Turn off Diagnostic Logs</div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="menu-about">About Yahoo! Messenger</div>
+        </div>
+      </div>
     </div>
 
     <!-- User Profile Section -->
@@ -528,8 +629,24 @@
       window.api.closeWindow();
     });
 
-    document.getElementById('help-menu').addEventListener('click', () => {
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown').forEach(dropdown => {
+        dropdown.classList.remove('show');
+      });
+    }
+
+    document.getElementById('help-menu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dropdown = document.getElementById('help-dropdown');
+      const isShow = dropdown.classList.contains('show');
+      closeAllDropdowns();
+      if (!isShow) dropdown.classList.add('show');
+    });
+
+    document.getElementById('menu-about').addEventListener('click', (e) => {
+      e.stopPropagation();
       window.api.openAbout();
+      closeAllDropdowns();
     });
 
     document.getElementById('add-contact-btn').addEventListener('click', () => {
@@ -538,30 +655,43 @@
 
     document.getElementById('messenger-menu').addEventListener('click', (e) => {
       e.stopPropagation();
-      document.getElementById('messenger-dropdown').classList.toggle('show');
+      const dropdown = document.getElementById('messenger-dropdown');
+      const isShow = dropdown.classList.contains('show');
+      closeAllDropdowns();
+      if (!isShow) dropdown.classList.add('show');
     });
 
     document.getElementById('contacts-menu').addEventListener('click', (e) => {
       e.stopPropagation();
-      document.getElementById('contacts-dropdown').classList.toggle('show');
+      const dropdown = document.getElementById('contacts-dropdown');
+      const isShow = dropdown.classList.contains('show');
+      closeAllDropdowns();
+      if (!isShow) dropdown.classList.add('show');
+    });
+
+    document.getElementById('actions-menu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const dropdown = document.getElementById('actions-dropdown');
+      const isShow = dropdown.classList.contains('show');
+      closeAllDropdowns();
+      if (!isShow) dropdown.classList.add('show');
     });
 
     document.getElementById('menu-add-contact').addEventListener('click', (e) => {
       e.stopPropagation();
       window.api.openAddFriend();
-      document.getElementById('contacts-dropdown').classList.remove('show');
+      closeAllDropdowns();
     });
 
     document.getElementById('open-prefs-item').addEventListener('click', (e) => {
       e.stopPropagation();
       window.api.openPreferences();
-      document.getElementById('messenger-dropdown').classList.remove('show');
+      closeAllDropdowns();
     });
 
     // Close dropdowns when clicking outside
     window.addEventListener('click', () => {
-      document.getElementById('messenger-dropdown').classList.remove('show');
-      document.getElementById('contacts-dropdown').classList.remove('show');
+      closeAllDropdowns();
     });
 
     // Handle contact clicks to open chat

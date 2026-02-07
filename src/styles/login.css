@@ -109,19 +109,20 @@ body {
 }
 
 .yahoo-logo {
-    font-size: 60px;
+    font-size: 80px;
     font-weight: bold;
-    color: var(--yahoo-purple);
+    color: white;
     font-family: serif;
     position: relative;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .yahoo-logo span {
-    color: #ff6600;
+    color: white;
     position: absolute;
     top: -5px;
-    right: -15px;
-    font-size: 40px;
+    right: -20px;
+    font-size: 50px;
 }
 
 .login-form {
@@ -215,4 +216,42 @@ body {
 
 .footer-links a:hover {
     text-decoration: underline;
+}
+
+/* Signing In Screen */
+.signing-in-screen {
+    display: none;
+    position: absolute;
+    top: 60px;
+    /* Below menu bar */
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    background: var(--yahoo-purple);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.signing-in-screen.show {
+    display: flex;
+}
+
+.signing-in-text {
+    color: #ffd2e5;
+    font-size: 16px;
+    margin-top: 40px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.signing-in-username {
+    display: block;
+    font-weight: bold;
+    color: white;
+}
+
+.cancel-btn-container {
+    margin-top: 40px;
 }

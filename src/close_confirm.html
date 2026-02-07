@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Close Tabs</title>
+    <link rel="stylesheet" href="styles/chat.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <style>
+        body {
+            background-color: #77246F;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .modal-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            border: 1px solid #ffffff40;
+        }
+
+        .modal-body {
+            flex: 1;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .question-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .yahoo-icon-container {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+
+        .yahoo-logo-mini {
+            color: #ffd700;
+            font-family: serif;
+            font-weight: bold;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .smile-icon {
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border-radius: 50%;
+            border: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .smile-icon::after {
+            content: '😁';
+            font-size: 16px;
+        }
+
+        .message-text {
+            font-size: 13px;
+            line-height: 1.5;
+            padding-top: 5px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            margin-left: 63px;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: 13px;
+            height: 13px;
+            margin: 0;
+        }
+
+        .checkbox-row label u {
+            text-decoration: underline;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .btn-close {
+            padding: 6px 15px !important;
+            min-width: 110px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="modal-container">
+        <!-- Title Bar -->
+        <div class="retro-title-bar">
+            <div class="title-left">Close Tabs</div>
+            <div class="window-controls">
+                <div class="control-btn close" onclick="window.close()"><i data-lucide="x"></i></div>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="question-row">
+                <div class="yahoo-icon-container">
+                    <div class="yahoo-logo-mini">Y!</div>
+                    <div class="smile-icon"></div>
+                </div>
+                <div class="message-text">
+                    Do you want to close all tabs or the current tab?
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="always-close">
+                <label for="always-close"><u>A</u>lways close all tabs</label>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <button class="zahu-btn btn-close" onclick="closeAction('all')"><u>C</u>lose All Tabs</button>
+            <button class="zahu-btn btn-close" onclick="closeAction('current')">Close Current Tab</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        function closeAction(action) {
+            const alwaysClose = document.getElementById('always-close').checked;
+            if (window.api) {
+                window.api.handleCloseTabsResponse({
+                    action: action,
+                    alwaysClose: alwaysClose
+                });
+            } else {
+                window.close();
+            }
+        }
+    </script>
+</body>
+
+</html>

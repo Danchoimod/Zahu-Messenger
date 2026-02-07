@@ -14,6 +14,9 @@ contextBridge.exposeInMainWorld('api', {
   openPreferences: () => ipcRenderer.send('open-preferences'),
   openChat: (user) => ipcRenderer.send('open-chat', user),
   openAddFriend: () => ipcRenderer.send('open-add-friend'),
+  openSendIm: () => ipcRenderer.send('open-send-im'),
+  openCloseConfirm: () => ipcRenderer.send('open-close-confirm'),
+  handleCloseTabsResponse: (data) => ipcRenderer.send('handle-close-tabs-response', data),
 });
 
 

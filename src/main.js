@@ -162,4 +162,50 @@ ipcMain.on('open-add-friend', () => {
   addFriendWindow.loadFile(path.join(__dirname, 'add_friend.html'));
 });
 
+ipcMain.on('open-send-im', () => {
+  const sendImWindow = new BrowserWindow({
+    width: 450,
+    height: 600,
+    resizable: true,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
 
+  sendImWindow.loadFile(path.join(__dirname, 'send_im.html'));
+});
+
+
+ipcMain.on('open-close-confirm', (event) => {
+  const parent = BrowserWindow.fromWebContents(event.sender);
+  const confirmWindow = new BrowserWindow({
+    width: 450,
+    height: 250,
+    parent: parent,
+    modal: true,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+
+  confirmWindow.loadFile(path.join(__dirname, 'close_confirm.html'));
+});
+
+ipcMain.on('handle-close-tabs-response', (event, data) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  const parent = win.getParentWindow();
+  win.close(); // Close confirm window
+
+  if (parent) {
+    if (data.action === 'all' || data.action === 'current') {
+      parent.close();
+    }
+  }
+});

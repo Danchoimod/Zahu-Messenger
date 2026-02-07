@@ -24,11 +24,92 @@
 
         <!-- Menu Bar -->
         <div class="menu-bar">
-            <div class="menu-item">Conversation</div>
-            <div class="menu-item">Edit</div>
-            <div class="menu-item">View</div>
-            <div class="menu-item">Actions</div>
-            <div class="menu-item">Help</div>
+            <div class="menu-item" id="conversation-menu">
+                Conversation
+                <div class="dropdown" id="conversation-dropdown">
+                    <div class="dropdown-item" id="menu-new-im">New <span class="shortcut">Ctrl+N</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item disabled">Send <span class="shortcut">Alt+S</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Save As... <span class="shortcut">Ctrl+S</span></div>
+                    <div class="dropdown-item">Print... <span class="shortcut">Ctrl+P</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="open-prefs-item">Preferences <span
+                            class="shortcut">Ctrl+Shift+P</span></div>
+                    <div class="dropdown-item">Privacy Options</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="close-conv-item">Close <span class="shortcut">Esc</span></div>
+                </div>
+            </div>
+            <div class="menu-item" id="edit-menu">
+                Edit
+                <div class="dropdown" id="edit-dropdown">
+                    <div class="dropdown-item">Undo <span class="shortcut">Ctrl+Z</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Cut <span class="shortcut">Ctrl+X</span></div>
+                    <div class="dropdown-item">Copy <span class="shortcut">Ctrl+C</span></div>
+                    <div class="dropdown-item">Paste <span class="shortcut">Ctrl+V</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Delete <span class="shortcut">Del</span></div>
+                    <div class="dropdown-item">Select All <span class="shortcut">Ctrl+A</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Previous Message <span class="shortcut">Up</span></div>
+                    <div class="dropdown-item">Next Message <span class="shortcut">Down</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Search the Web <span class="shortcut">Ctrl+E</span></div>
+                </div>
+            </div>
+            <div class="menu-item" id="view-menu">
+                View
+                <div class="dropdown" id="view-dropdown">
+                    <div class="dropdown-item checked">Conversation Toolbar</div>
+                    <div class="dropdown-item checked">Audibles Toolbar</div>
+                    <div class="dropdown-item checked">Text Formatting Toolbar</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Timestamps <span class="shortcut">F2</span></div>
+                    <div class="dropdown-item">Recent Messages <span class="shortcut">F3</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item checked">Display Image <span class="shortcut">F7</span></div>
+                    <div class="dropdown-item has-submenu">My Display Image Options</div>
+                </div>
+            </div>
+            <div class="menu-item" id="actions-menu">
+                Actions
+                <div class="dropdown" id="actions-dropdown">
+                    <div class="dropdown-item has-submenu">Contact Options</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item disabled">Start Video Call... <span class="shortcut">Ctrl+J</span></div>
+                    <div class="dropdown-item disabled">Start Voice Call... <span class="shortcut">Ctrl+L</span></div>
+                    <div class="dropdown-item">Send an SMS Message... <span class="shortcut">Ctrl+T</span></div>
+                    <div class="dropdown-item">Send an Email... <span class="shortcut">Ctrl+Y</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Send My Contact Details... <span class="shortcut">Ctrl+Shift+C</span>
+                    </div>
+                    <div class="dropdown-item">Send My Messenger List... <span class="shortcut">Ctrl+Shift+M</span>
+                    </div>
+                    <div class="dropdown-item">Request Contact Details <span class="shortcut">Ctrl+Shift+R</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Buzz <span class="shortcut">Ctrl+G</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item disabled">Send a File...</div>
+                    <div class="dropdown-item">Share Photos...</div>
+                    <div class="dropdown-item">Choose Activity...</div>
+                    <div class="dropdown-item">Invite to Conference...</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item has-submenu">More Actions</div>
+                </div>
+            </div>
+            <div class="menu-item" id="help-menu">
+                Help
+                <div class="dropdown" id="help-dropdown">
+                    <div class="dropdown-item">Messenger Help <span class="shortcut">F1</span></div>
+                    <div class="dropdown-item">Set up Video and Voice</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item">Report Abuse</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="about-menu-item">About Yahoo! Messenger</div>
+                </div>
+            </div>
         </div>
 
         <!-- Main Toolbar -->
@@ -122,7 +203,68 @@
             if (window.api) window.api.toggleMaximizeWindow();
         });
         document.querySelector('.close').addEventListener('click', () => {
-            if (window.api) window.api.closeWindow();
+            if (window.api) window.api.openCloseConfirm();
+        });
+
+        // Dropdown toggle
+        const dropdownMappings = {
+            'conversation-menu': 'conversation-dropdown',
+            'edit-menu': 'edit-dropdown',
+            'view-menu': 'view-dropdown',
+            'actions-menu': 'actions-dropdown',
+            'help-menu': 'help-dropdown'
+        };
+
+        function closeAllDropdowns() {
+            Object.values(dropdownMappings).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('show');
+            });
+        }
+
+        Object.keys(dropdownMappings).forEach(menuId => {
+            const menuBtn = document.getElementById(menuId);
+            if (!menuBtn) return;
+
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const targetId = dropdownMappings[menuId];
+                const targetDropdown = document.getElementById(targetId);
+                const isShowing = targetDropdown.classList.contains('show');
+
+                closeAllDropdowns();
+                if (!isShowing) {
+                    targetDropdown.classList.add('show');
+                }
+            });
+        });
+
+        document.getElementById('menu-new-im').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.api) window.api.openSendIm();
+            closeAllDropdowns();
+        });
+
+        document.getElementById('open-prefs-item').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.api) window.api.openPreferences();
+            closeAllDropdowns();
+        });
+
+        document.getElementById('close-conv-item').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.api) window.api.openCloseConfirm();
+        });
+
+        document.getElementById('about-menu-item').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.api) window.api.openAbout();
+            closeAllDropdowns();
+        });
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', () => {
+            closeAllDropdowns();
         });
     </script>
 </body>
