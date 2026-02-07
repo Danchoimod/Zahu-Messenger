@@ -325,10 +325,11 @@
     .contact-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 5px 4px;
+      gap: 15px;
+      padding: 10px 8px;
+      margin-bottom: 4px;
       cursor: pointer;
-      border-radius: 2px;
+      border-radius: 4px;
       transition: background 0.1s;
     }
 
@@ -337,14 +338,14 @@
     }
 
     .contact-icon {
-      width: 20px;
-      height: 20px;
+      width: 32px;
+      height: 32px;
       background: #eee;
-      border-radius: 2px;
+      border-radius: 4px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 12px;
+      overflow: hidden;
     }
 
     .contact-name {
@@ -421,7 +422,13 @@
           <div class="dropdown-item">Close <span class="shortcut">Ctrl+Q</span></div>
         </div>
       </div>
-      <div class="menu-item">Contacts</div>
+      <div class="menu-item" id="contacts-menu">
+        Contacts
+        <div class="dropdown" id="contacts-dropdown">
+          <div class="dropdown-item" id="menu-add-contact">Add a Contact... <span class="shortcut">Ctrl+Shift+A</span>
+          </div>
+        </div>
+      </div>
       <div class="menu-item">Actions</div>
       <div class="menu-item" id="help-menu">Help</div>
     </div>
@@ -455,7 +462,7 @@
 
     <!-- Toolbar -->
     <div class="toolbar">
-      <span class="tool-btn" title="Add Contact"><i data-lucide="user-plus"></i></span>
+      <span class="tool-btn" title="Add a contact" id="add-contact-btn"><i data-lucide="user-plus"></i></span>
       <span class="tool-btn" title="View"><i data-lucide="layout-grid"></i></span>
       <div class="search-container">
         <span style="position: absolute; left: 8px; top: 6px; color: #999;">
@@ -474,19 +481,23 @@
         Friends (4/46)
       </div>
       <div class="contact-item">
-        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: green;"></i></div>
+        <div class="contact-icon"><img src="../public/avatar.png"
+            style="width: 30px; height: 30px; border-radius: 2px;"></div>
         <span class="contact-name">dangera.crazy</span>
       </div>
       <div class="contact-item">
-        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: green;"></i></div>
+        <div class="contact-icon"><img src="../public/avatar.png"
+            style="width: 30px; height: 30px; border-radius: 2px;"></div>
         <span class="contact-name">dany_zicu2007</span>
       </div>
       <div class="contact-item">
-        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: green;"></i></div>
+        <div class="contact-icon"><img src="../public/avatar.png"
+            style="width: 30px; height: 30px; border-radius: 2px;"></div>
         <span class="contact-name">user_33912</span>
       </div>
       <div class="contact-item">
-        <div class="contact-icon"><i data-lucide="smile" style="width: 16px; height: 16px; color: orange;"></i></div>
+        <div class="contact-icon"><img src="../public/avatar.png"
+            style="width: 30px; height: 30px; border-radius: 2px;"></div>
         <span class="contact-name">friend_abc_xyz</span>
       </div>
     </div>
@@ -521,9 +532,24 @@
       window.api.openAbout();
     });
 
+    document.getElementById('add-contact-btn').addEventListener('click', () => {
+      window.api.openAddFriend();
+    });
+
     document.getElementById('messenger-menu').addEventListener('click', (e) => {
       e.stopPropagation();
       document.getElementById('messenger-dropdown').classList.toggle('show');
+    });
+
+    document.getElementById('contacts-menu').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('contacts-dropdown').classList.toggle('show');
+    });
+
+    document.getElementById('menu-add-contact').addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.api.openAddFriend();
+      document.getElementById('contacts-dropdown').classList.remove('show');
     });
 
     document.getElementById('open-prefs-item').addEventListener('click', (e) => {
@@ -532,9 +558,10 @@
       document.getElementById('messenger-dropdown').classList.remove('show');
     });
 
-    // Close dropdown when clicking outside
+    // Close dropdowns when clicking outside
     window.addEventListener('click', () => {
       document.getElementById('messenger-dropdown').classList.remove('show');
+      document.getElementById('contacts-dropdown').classList.remove('show');
     });
 
     // Handle contact clicks to open chat

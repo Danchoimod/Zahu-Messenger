@@ -146,4 +146,20 @@ ipcMain.on('open-preferences', () => {
   prefWindow.loadFile(path.join(__dirname, 'preferences.html'));
 });
 
+ipcMain.on('open-add-friend', () => {
+  const addFriendWindow = new BrowserWindow({
+    width: 600,
+    height: 500,
+    resizable: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
+  });
+
+  addFriendWindow.loadFile(path.join(__dirname, 'add_friend.html'));
+});
+
 

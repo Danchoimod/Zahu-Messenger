@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Messenger List</title>
+    <link rel="stylesheet" href="styles/windows.css">
+    <link rel="stylesheet" href="styles/button.css">
+    <style>
+        :root {
+            --yahoo-purple: #82225e;
+            --yahoo-purple-dark: #5a1240;
+            --yahoo-purple-light: #77246F;
+            --yahoo-mauve: #bd7e9d;
+            --window-bg: #82225e;
+            --title-bar-bg: linear-gradient(to bottom, #bd7e9d, #a63d7a);
+            --border-color: #000;
+            --text-white: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--window-bg);
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .retro-title-bar {
+            background: var(--title-bar-bg);
+            height: 35px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            justify-content: space-between;
+            color: white;
+            -webkit-app-region: drag;
+        }
+
+        .title-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .title-logo {
+            font-family: serif;
+            font-size: 18px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 3px;
+            -webkit-app-region: no-drag;
+        }
+
+        .control-btn {
+            width: 26px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .control-btn.close:hover {
+            background: #e81123;
+        }
+
+        .content {
+            padding: 20px;
+            flex: 1;
+            font-size: 13px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .step.active {
+            display: flex;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            outline: none;
+            color: black;
+        }
+
+        select {
+            padding: 3px;
+            background: white;
+            border: 1px solid #ccc;
+            color: black;
+        }
+
+        .example-text {
+            font-size: 11px;
+            color: #ccc;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .tooltip-bubble {
+            position: absolute;
+            right: 20px;
+            bottom: 60px;
+            background: #ffffcc;
+            color: black;
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 8px;
+            width: 180px;
+            font-size: 12px;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip-bubble::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            border-width: 5px 10px 5px 0;
+            border-style: solid;
+            border-color: transparent #000 transparent transparent;
+        }
+
+        .address-book-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .address-book-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Step 2 Specific Styles */
+        .separator {
+            height: 1px;
+            background: white;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .intro-text {
+            line-height: 1.4;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .change-btn {
+            padding: 3px 20px !important;
+            font-size: 12px !important;
+        }
+
+        .footer {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .zahu-btn.disabled {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .zahu-btn:active:not(.disabled) {
+            filter: brightness(0.8);
+        }
+
+        .zahu-btn {
+            padding: 6px 20px !important;
+            /* Smaller buttons for footer */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="retro-title-bar">
+        <div class="title-left">
+            <span class="title-logo">Add to Messenger List</span>
+        </div>
+        <div class="window-controls">
+            <div class="control-btn min-button">
+                <i data-lucide="minus"></i>
+            </div>
+            <div class="control-btn max-button">
+                <i data-lucide="square"></i>
+            </div>
+            <div class="control-btn close">
+                <i data-lucide="x"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Step 1: Identifier Entry -->
+        <div class="step active" id="step-1">
+            <div class="form-group">
+                <div class="label-row">
+                    <span>Enter a <u>M</u>essenger ID or email address:</span>
+                    <span>Network:</span>
+                </div>
+                <div class="input-row">
+                    <input type="text" id="target-id" autofocus>
+                    <select id="target-network" style="width: 150px;">
+                        <option>Yahoo! Messenger</option>
+                        <option>Windows Live</option>
+                    </select>
+                </div>
+                <div class="example-text">
+                    Example: hari<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example@yahoo.com<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example@sbcglobal.net<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;example@hotmail.com
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Enter a mobile <u>d</u>evice number (optional):</label>
+                <div style="margin-top: 5px;">
+                    <input type="text" style="width: 320px;">
+                </div>
+                <div class="example-text" style="color: #bbb;">
+                    Send SMS (text) messages from your computer.<br>
+                    Example: (408) 555-1212<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+1-408-555-1212<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+91 98 222 49494
+                </div>
+            </div>
+
+            <div class="tooltip-bubble">
+                Add a mobile number so you can send an SMS (text) message right from Messenger!
+            </div>
+
+            <div>
+                Or <button class="address-book-btn"><u>C</u>hoose a Contact from Your Address Book...</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Group and Introduction -->
+        <div class="step" id="step-2">
+            <div class="form-group">
+                <label id="group-label">Choose or enter a Messenger List <u>g</u>roup for:</label>
+                <select style="width: 250px;">
+                    <option>Friends</option>
+                </select>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="intro-text">
+                A message will be sent asking this person to approve your request to add him or her to your Messenger
+                List.
+            </div>
+
+            <div class="form-group">
+                <label>Enter a brief introduction (optional):</label>
+                <input type="text" id="intro-input">
+            </div>
+
+            <div class="name-section">
+                <div class="intro-text">Send your name with this request as:</div>
+                <div class="name-row">
+                    <div style="margin-left: 20px; color: #ddd;" id="user-name-display">victor hani</div>
+                    <button class="zahu-btn change-btn"><u>C</u>hange...</button>
+                </div>
+            </div>
+
+            <div style="flex: 1;"></div>
+            <div class="separator"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <button class="zahu-btn disabled" id="back-btn">&lt; <u>B</u>ack</button>
+        <button class="zahu-btn" id="next-btn"><u>N</u>ext &gt;</button>
+        <button class="zahu-btn" id="cancel-btn">Cancel</button>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        let currentStep = 1;
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-btn');
+        const targetIdInput = document.getElementById('target-id');
+        const groupLabel = document.getElementById('group-label');
+
+        function updateStepUI() {
+            if (currentStep === 1) {
+                step1.classList.add('active');
+                step2.classList.remove('active');
+                backBtn.classList.add('disabled');
+                nextBtn.innerHTML = '<u>N</u>ext &gt;';
+            } else {
+                step1.classList.remove('active');
+                step2.classList.add('active');
+                backBtn.classList.remove('disabled');
+                nextBtn.innerHTML = 'Finish';
+
+                // Update text based on step 1 input
+                const idValue = targetIdInput.value || 'Friend';
+                groupLabel.innerHTML = `Choose or enter a Messenger List <u>g</u>roup for ${idValue}:`;
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep === 1) {
+                currentStep = 2;
+                updateStepUI();
+            } else {
+                // Finish logic
+                window.api.closeWindow();
+            }
+        });
+
+        backBtn.addEventListener('click', () => {
+            if (currentStep === 2) {
+                currentStep = 1;
+                updateStepUI();
+            }
+        });
+
+        // Window controls
+        document.querySelector('.min-button').addEventListener('click', () => {
+            window.api.minimizeWindow();
+        });
+        document.querySelector('.max-button').addEventListener('click', () => {
+            window.api.toggleMaximizeWindow();
+        });
+        document.querySelector('.close').addEventListener('click', () => {
+            window.api.closeWindow();
+        });
+
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            window.api.closeWindow();
+        });
+    </script>
+</body>
+
+</html>

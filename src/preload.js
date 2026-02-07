@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('api', {
   openAbout: () => ipcRenderer.send('open-about'),
   openPreferences: () => ipcRenderer.send('open-preferences'),
   openChat: (user) => ipcRenderer.send('open-chat', user),
+  openAddFriend: () => ipcRenderer.send('open-add-friend'),
 });
 
 
