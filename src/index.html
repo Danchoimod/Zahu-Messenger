@@ -301,22 +301,25 @@
     }
 
     .toolbar {
-      padding: 5px 10px;
+      padding: 6px 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: var(--yahoo-purple-dark);
-      border-bottom: 1px solid #000;
+      gap: 8px;
+      background: linear-gradient(to bottom, #f0f0f0, #dcdcdc);
+      border-bottom: 1px solid #999;
     }
 
     .tool-btn {
       font-size: 16px;
       cursor: pointer;
-      color: white;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .tool-btn:hover {
-      color: var(--yahoo-mauve);
+      color: #000;
     }
 
     .search-container {
@@ -405,6 +408,79 @@
 
     .footer-panel-divider {
       border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .updates-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+      display: none;
+      background: #fff;
+    }
+
+    .updates-header {
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #777;
+      background: #f9f9f9;
+      border-bottom: 1px solid #eee;
+    }
+
+    .update-item {
+      display: flex;
+      padding: 10px;
+      border-bottom: 1px solid #f0f0f0;
+      gap: 10px;
+    }
+
+    .update-avatar {
+      width: 40px;
+      height: 40px;
+      background: #eee;
+      border-radius: 2px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .update-content {
+      flex: 1;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .update-user {
+      color: #00b4d8;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .update-action {
+      color: #333;
+    }
+
+    .update-message {
+      color: #333;
+    }
+
+    .update-time {
+      display: block;
+      font-size: 10px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .update-emoji {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 5px;
+    }
+
+    .update-emoji-icon {
+      width: 18px;
+      height: 18px;
+      opacity: 0.7;
     }
   </style>
 </head>
@@ -573,12 +649,12 @@
         <span style="position: absolute; left: 8px; top: 6px; color: #999;">
           <i data-lucide="search" style="width: 14px; height: 14px;"></i>
         </span>
-        <input type="text" class="search-input" placeholder="Type some contact information...">
+        <input type="text" class="search-input" placeholder="đánh vào vài thông tin...">
       </div>
     </div>
 
     <!-- Contact List -->
-    <div class="contact-list">
+    <div class="contact-list" id="contacts-container">
       <div class="group-header">
         Recent Contacts (0/0)
       </div>
@@ -604,6 +680,65 @@
         <div class="contact-icon"><img src="../public/avatar.png"
             style="width: 30px; height: 30px; border-radius: 2px;"></div>
         <span class="contact-name">friend_abc_xyz</span>
+      </div>
+    </div>
+
+    <!-- Y! Updates List -->
+    <div class="updates-list" id="updates-container">
+      <div class="updates-header">Hôm nay</div>
+
+      <div class="update-item">
+        <div class="update-avatar"><img src="../public/avatar.png" style="width: 100%; height: 100%;"></div>
+        <div class="update-content">
+          <span class="status-dot-mini active"
+            style="position: relative; top: -1px; margin-right: 3px; display: inline-block;"></span>
+          <a href="#" class="update-user">Thanh Lạnh</a> <span class="update-action">nói "."</span>
+          <span class="update-time">khoảng một phút trước</span>
+        </div>
+        <div class="update-emoji">
+          <i data-lucide="smile" class="update-emoji-icon"></i>
+        </div>
+      </div>
+
+      <div class="update-item">
+        <div class="update-avatar"><img src="../public/avatar.png" style="width: 100%; height: 100%;"></div>
+        <div class="update-content">
+          <span class="status-dot-mini active"
+            style="position: relative; top: -1px; margin-right: 3px; display: inline-block;"></span>
+          <a href="#" class="update-user">m ý t</a> <span class="update-action">nói "k bngu 🙄"</span>
+          <span class="update-time">khoảng một phút trước</span>
+        </div>
+        <div class="update-emoji">
+          <i data-lucide="smile" class="update-emoji-icon"></i>
+        </div>
+      </div>
+
+      <div class="update-item">
+        <div class="update-avatar"><img src="../public/avatar.png" style="width: 100%; height: 100%;"></div>
+        <div class="update-content">
+          <span class="status-dot-mini active"
+            style="position: relative; top: -1px; margin-right: 3px; display: inline-block;"></span>
+          <a href="#" class="update-user">Trang Tj0</a> <span class="update-action">nói "hê hê... chết chúng mày
+            điiiiiii... 🥁... cho chết nàyyyyy 🥁 buồn đê, tao vui, hê hê 🥁"</span>
+          <span class="update-time">khoảng một phút trước</span>
+        </div>
+        <div class="update-emoji">
+          <i data-lucide="smile" class="update-emoji-icon"></i>
+        </div>
+      </div>
+
+      <div class="update-item">
+        <div class="update-avatar"><img src="../public/avatar.png" style="width: 100%; height: 100%;"></div>
+        <div class="update-content">
+          <span class="status-dot-mini active"
+            style="position: relative; top: -1px; margin-right: 3px; display: inline-block;"></span>
+          <a href="#" class="update-user">Thương Péo</a> <span class="update-action">nói "trời đẹp thế này mà phải đi
+            học cũng chỉ như bao ngày bt thôi ak 😩 www."</span>
+          <span class="update-time">khoảng một phút trước</span>
+        </div>
+        <div class="update-emoji">
+          <i data-lucide="smile" class="update-emoji-icon"></i>
+        </div>
       </div>
     </div>
 
@@ -709,6 +844,26 @@
       item.addEventListener('click', () => {
         const contactName = item.querySelector('.contact-name').textContent;
         window.api.openChat({ name: contactName });
+      });
+    });
+
+    // Tab switching logic
+    const tabs = document.querySelectorAll('.tab');
+    const contactsContainer = document.getElementById('contacts-container');
+    const updatesContainer = document.getElementById('updates-container');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        if (tab.textContent === 'Contacts') {
+          contactsContainer.style.display = 'block';
+          updatesContainer.style.display = 'none';
+        } else {
+          contactsContainer.style.display = 'none';
+          updatesContainer.style.display = 'block';
+        }
       });
     });
   </script>
