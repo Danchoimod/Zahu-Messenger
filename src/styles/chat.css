@@ -537,3 +537,35 @@ body {
 .color-picker-footer:hover {
     background-color: #eee;
 }
+
+/* Font Picker Styles */
+.font-picker-modal {
+    display: none;
+    position: absolute;
+    background: #FFFEF7;
+    border: 1px solid #999;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    z-index: 10000;
+    padding: 2px;
+    width: 150px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.font-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.font-item {
+    padding: 4px 8px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.font-item:hover {
+    background-color: #BD7E9D50;
+    border: 1px solid #BD7E9D;
+}

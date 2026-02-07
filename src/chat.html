@@ -178,7 +178,7 @@
         <div class="formatting-toolbar">
             <div class="format-btn" id="emoji-btn"><i data-lucide="smile" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="megaphone" style="width:16px; height:16px;"></i></div>
-            <div class="format-btn"><i data-lucide="type" style="width:16px; height:16px;"></i></div>
+            <div class="format-btn" id="font-btn"><i data-lucide="type" style="width:16px; height:16px;"></i></div>
             <div class="format-btn" id="color-btn"><i data-lucide="palette" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="paperclip" style="width:16px; height:16px;"></i></div>
             <div class="format-btn"><i data-lucide="monitor" style="width:16px; height:16px;"></i></div>
@@ -262,6 +262,25 @@
             </div>
             <div class="color-picker-footer">Các màu khác...</div>
             <div class="color-picker-footer">Hiệu ứng mà...</div>
+        </div>
+
+        <div id="font-picker" class="font-picker-modal">
+            <div class="font-list">
+                <div class="font-item" style="font-family: Arial;" onclick="changeFont('Arial')">Arial</div>
+                <div class="font-item" style="font-family: 'Times New Roman';" onclick="changeFont('Times New Roman')">
+                    Times New Roman</div>
+                <div class="font-item" style="font-family: Verdana;" onclick="changeFont('Verdana')">Verdana</div>
+                <div class="font-item" style="font-family: 'Courier New';" onclick="changeFont('Courier New')">Courier
+                    New</div>
+                <div class="font-item" style="font-family: Georgia;" onclick="changeFont('Georgia')">Georgia</div>
+                <div class="font-item" style="font-family: Tahoma;" onclick="changeFont('Tahoma')">Tahoma</div>
+                <div class="font-item" style="font-family: 'Trebuchet MS';" onclick="changeFont('Trebuchet MS')">
+                    Trebuchet MS</div>
+                <div class="font-item" style="font-family: 'Segoe UI';" onclick="changeFont('Segoe UI')">Segoe UI</div>
+                <div class="font-item" style="font-family: Impact;" onclick="changeFont('Impact')">Impact</div>
+                <div class="font-item" style="font-family: Comic Sans MS;" onclick="changeFont('Comic Sans MS')">Comic
+                    Sans MS</div>
+            </div>
         </div>
 
         <!-- Bottom Status/Tabs -->
@@ -416,6 +435,9 @@
             if (colorPicker.style.display === 'block' && !colorPicker.contains(e.target) && e.target !== colorBtn) {
                 colorPicker.style.display = 'none';
             }
+            if (fontPicker.style.display === 'block' && !fontPicker.contains(e.target) && e.target !== fontBtn) {
+                fontPicker.style.display = 'none';
+            }
         });
 
         // Color Logic
@@ -429,6 +451,7 @@
 
             // Close other modals
             emojiPicker.style.display = 'none';
+            fontPicker.style.display = 'none';
 
             colorPicker.style.display = isVisible ? 'none' : 'block';
 
@@ -441,6 +464,32 @@
         window.changeColor = function (color) {
             chatInput.style.color = color;
             colorPicker.style.display = 'none';
+        };
+
+        // Font Logic
+        const fontBtn = document.getElementById('font-btn');
+        const fontPicker = document.getElementById('font-picker');
+
+        fontBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const rect = fontBtn.getBoundingClientRect();
+            const isVisible = fontPicker.style.display === 'block';
+
+            // Close other modals
+            emojiPicker.style.display = 'none';
+            colorPicker.style.display = 'none';
+
+            fontPicker.style.display = isVisible ? 'none' : 'block';
+
+            if (!isVisible) {
+                fontPicker.style.bottom = (window.innerHeight - rect.top + 5) + 'px';
+                fontPicker.style.left = rect.left + 'px';
+            }
+        });
+
+        window.changeFont = function (font) {
+            chatInput.style.fontFamily = font;
+            fontPicker.style.display = 'none';
         };
     </script>
 </body>
